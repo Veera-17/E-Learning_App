@@ -42,6 +42,16 @@ class StudentCourseListView(LoginRequiredMixin, ListView):
         qs = super().get_queryset()
         return qs.filter(students__in=[self.request.user])
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['user'] = self.request.user
+        context['user_all_permissions'] = self.request.user.get_all_permissions()
+        context['user_courses'] = Course.objects.filter(owner = self.request.user)
+        # user_courses = Course.objects.filter(owner = self.request.user)
+        # print(list(context['user_courses']))
+        # print("All effective permissions:", list(context['user_all_permissions']))  # This should show all permissions
+        return context
+    
 
 class StudentCourseDetailView(DetailView):
     model = Course

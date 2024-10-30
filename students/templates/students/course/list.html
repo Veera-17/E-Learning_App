@@ -17,4 +17,20 @@
       </p>
     {% endfor %}
   </div>
+  
+  {% if 'courses.view_course' in user_all_permissions %}
+    <h1>Creater of </h1>
+    <div class="module">
+      {% for course in user_courses %}
+        <div class="course-info">
+          <h3>{{ course.title }}</h3>
+          <p><a href="{% url "manage_course_list" %}">
+          Access contents</a></p>
+        </div>
+        {% empty %}
+          <h2>Not Created any course yet..</h2>
+      {% endfor %}
+    </div>
+    
+  {% endif %}
 {% endblock %}
